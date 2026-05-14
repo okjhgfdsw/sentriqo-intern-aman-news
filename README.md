@@ -1,9 +1,9 @@
-# Sentriqo News Aggregator terminal
+## Sentriqo News Aggregator terminal
 
 An 8-week internship project built using vanilla JavaScript.
 
 ## Live Deployment
--*Live URL*:[]
+-*Live URL*:[Aman]
 
 ## Core Features
 - Live News Fetching via Public API
