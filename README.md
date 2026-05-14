@@ -3,7 +3,7 @@
 An 8-week internship project built using vanilla JavaScript.
 
 ## Live Deployment
--*Live URL*:[Aman]
+-*Live URL*:[]
 
 ## Core Features
 - Live News Fetching via Public API
