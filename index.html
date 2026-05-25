@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Aggregator</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body>
+    <div class="portal-root">
+        
+        <header class="navbar-wrapper">
+            <div class="navbar-upper">
+                <div class="search-shell">
+                    <span class="search-indicator">🔍</span>
+                    <input type="text" placeholder="Search for topics..." class="search-field">
+                </div>
+                <div class="user-control-cluster">
+                    <div class="avatar-trigger" aria-label="Profile"></div>
+                    <button class="config-trigger">⚙️</button>
+                </div>
+            </div>
+
+            <nav class="topic-scroll-pane">
+                <ul class="topic-list">
+                    <li class="topic-pill selected" data-category="Home">Home</li>
+                    <li class="pill-separator"></li>
+                    <li class="topic-pill" data-category="India">India</li>
+                    <li class="topic-pill" data-category="World">World</li>
+                    <li class="topic-pill" data-category="Business">Business</li>
+                    <li class="topic-pill" data-category="Technology">Technology</li>
+                    <li class="topic-pill" data-category="Sports">Sports</li>
+                    <li class="topic-pill" data-category="Science">Science</li>
+                    <li class="topic-pill" data-category="Health">Health</li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="live-metrics-bar">
+            <div class="metrics-left-deck">
+                <span id="live-date-box" class="timestamp-view">Sunday, 17 May</span>
+                <div class="weather-widget">
+                    <span class="weather-condition-icon">🌙</span>
+                    <div class="weather-info-meta">
+                        <span class="geo-tag">Amravati</span>
+                        <span class="temperature-reading">38°C</span>
+                    </div>
+                </div>
+            </div>
+            <div class="financial-ticker">
+                <span class="ticker-placement">NIFTY 50 <span class="trend-indicator up">▲ 0.84%</span></span>
+            </div>
+        </div>
+        
+        <main class="content-viewport">
+            <div class="headlines-wrapper">
+                <h2 class="feed-headline">Top stories</h2>
+                <div id="news-grid" class="cards-layout-grid"></div>
+            </div>
+        </main> 
+    </div>
+
+    <script type="module" src="src/index.js"></script>
+</body>
+</html>
