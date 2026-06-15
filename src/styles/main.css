@@ -1,19 +1,22 @@
 /* ==========================================================================
-   1. CORE ARCHITECTURE & DESIGN TOKENS
+   1. ROOT VARIABLES & CORE ARCHITECTURE
    ========================================================================== */
 :root {
-    --bg-navbar: #071a2f;       /* Deep obsidian navy */
-    --bg-ticker: #051322;       /* Ultra-dark anchor shade */
-    --bg-canvas: #f4f6f9;       /* Soft silver grey for body */
-    --bg-surface: #ffffff;      /* Pristine solid white for layout cards */
-    
-    --ink-primary: #1a1a1a;     /* Sharp high-contrast text */
-    --ink-subtle: #666666;      /* Subdued grey for metadata */
-    --neon-highlight: #00d2ff;  /* Radiant electric cyan focus ring */
-    --trend-positive: #34d399;  /* Vibrant mint green for upticks */
-    
-    --radius-smooth: 16px;      /* Contemporary rounded borders */
-    --motion-smooth: 0.25s ease;/* Consistent micro-interaction timing */
+    --bg-navbar: #071a2f;
+    /*  blue color for navigation bar */
+    --bg-ticker: #051322;  
+     /* Dark blue color for the bg line where temp,day and bookmark are placed. */
+    --bg-canvas: #f4f6f9;       
+        /* white color for main bg of website not affect header  */
+    --bg-surface: #ffffff;     
+    --ink-primary: #1a1a1a;     
+    --ink-subtle: #666666;      
+    --neon-highlight: #00d2ff;  
+    --trend-positive: #34d399;  
+    --radius-smooth: 16px;      
+    /* Round corner for boxes and cards */
+    --motion-smooth: 0.25s ease;
+    /* for smooth scrolling */
 }
 
 * {
@@ -28,12 +31,8 @@ body {
     color: var(--ink-primary);
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==========================================================================
-   2. CORE PORTAL VIEWPORTS
-   ========================================================================== */
 .portal-root {
     width: 100%;
     min-height: 100vh;
@@ -50,28 +49,27 @@ body {
 }
 
 /* ==========================================================================
-   3. NAVIGATION COMMAND & CONTROL BAR
+   2. NAVBAR & UPPER USER CONTROLS
    ========================================================================== */
 .navbar-wrapper {
-    background-color: var(--bg-navbar);
-    padding: 1rem 2rem 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    position: sticky;
-    top: 0;
+    background-color: var(--bg-navbar);    /* set background color */
+    padding: 1rem 2rem 0;                  /*give 1rem padding to top,2rem padding to side,0rem padding to bottom */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);   /*this will create shadow in navbar */
+    position: sticky;  /*set sticky look at the top*/
+    top: 0;               
     z-index: 1000;
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: column; /*Arrange inner element in vertical column */
+    gap: 1rem;              /*1rem gap between each inner element */
 }
 
 .navbar-upper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /*make a space between search bar and put login logout on the right */
     width: 100%;
 }
 
-/* Fluid Search System */
 .search-shell {
     position: relative;
     max-width: 680px;
@@ -84,7 +82,6 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: rgba(255, 255, 255, 0.6);
-    font-size: 1rem;
     pointer-events: none;
 }
 
@@ -100,21 +97,56 @@ body {
     transition: all var(--motion-smooth);
 }
 
-.search-field::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
 .search-field:focus {
     background-color: rgba(255, 255, 255, 0.15);
     border-color: var(--neon-highlight);
-    box-shadow: 0 0 14px rgba(0, 210, 255, 0.25);
 }
 
-/* System Access Cluster */
 .user-control-cluster {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+}
+
+.nav-btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-btn {
+    background: transparent;
+    border: 1px solid #0b57d0;
+    color: #4c8bf5;
+}
+
+.signup-btn {
+    background-color: #0b57d0;
+    border: none;
+    color: white;
+}
+
+.avatar-trigger {
+    display: none; 
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7fc3e8 0%, #2980b9 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-trigger.logged-in {
+    display: flex; 
 }
 
 .config-trigger {
@@ -129,61 +161,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background var(--motion-smooth);
-}
-
-.config-trigger:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-/* CSS Illustrated User Vector Avatar */
-.avatar-trigger {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7fc3e8 0%, #2980b9 100%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform var(--motion-smooth);
-    display: inline-block;
-    flex-shrink: 0;
-}
-
-.avatar-trigger:hover {
-    transform: scale(1.05);
-}
-
-.avatar-trigger::before {
-    content: '';
-    position: absolute;
-    bottom: 12%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 18px;
-    height: 9px;
-    background: #ffffff;
-    border-radius: 9px 9px 0 0;
-    opacity: 0.9;
-}
-
-.avatar-trigger::after {
-    content: '';
-    position: absolute;
-    top: 18%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10px;
-    height: 10px;
-    background: #ffffff;
-    border-radius: 50%;
-    opacity: 0.9;
 }
 
 /* ==========================================================================
-   4. HORIZONTAL SCROLL CATEGORIES (Fixed List Constraints)
+   3. NAVIGATION TOPIC SCROLL & DROPDOWNS
    ========================================================================== */
 .topic-scroll-pane {
     width: 100%;
@@ -191,16 +172,12 @@ body {
     scrollbar-width: none;
 }
 
-.topic-scroll-pane::-webkit-scrollbar {
-    display: none;
-}
-
 .topic-list {
     display: flex;
     gap: 28px;
     padding-bottom: 4px;
     align-items: center;
-    list-style: none; /* Crucial: Strips away HTML list dots */
+    list-style: none;
 }
 
 .topic-pill {
@@ -216,8 +193,8 @@ body {
     cursor: pointer;
 }
 
-.topic-pill:hover {
-    color: #ffffff;
+.topic-pill:hover { 
+    color: #ffffff; 
 }
 
 .topic-pill.selected {
@@ -226,16 +203,45 @@ body {
     font-weight: 600;
 }
 
-.pill-separator {
-    width: 1px;
-    height: 16px;
-    background-color: rgba(255, 255, 255, 0.2);
-    flex-shrink: 0;
-    margin-bottom: 12px;
+.world-news-wrapper, 
+.state-news-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-bottom: 8px !important;
+}
+
+.dropdown-menu-style {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 2px 8px;              
+    max-width: 130px;              
+    text-overflow: ellipsis;       
+    white-space: nowrap;
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    transition: all var(--motion-smooth);
+}
+
+.dropdown-menu-style:hover, 
+.dropdown-menu-style:focus {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--neon-highlight);
+}
+
+.dropdown-menu-style option {
+    background-color: var(--bg-navbar);
+    color: #ffffff;
 }
 
 /* ==========================================================================
-   5. DATA STRIP INFOBAR (METRICS & HEADERS)
+   4. LIVE METRICS & NAV BOOKMARKS BAR
    ========================================================================== */
 .live-metrics-bar {
     background-color: var(--bg-ticker);
@@ -243,96 +249,110 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     color: #ffffff;
 }
 
-.metrics-left-deck {
+.metrics-left-deck { 
+    display: flex; 
+    align-items: center; 
+    gap: 24px; 
+}
+
+.timestamp-view { 
+    font-size: 0.95rem; 
+    color: rgba(255, 255, 255, 0.9); 
+}
+
+.weather-widget { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    font-size: 0.88rem; 
+}
+
+.weather-info-meta { 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.geo-tag { 
+    font-size: 11px; 
+    color: rgba(255, 255, 255, 0.5); 
+}
+
+.temperature-reading { 
+    font-size: 0.88rem; 
+    font-weight: 600; 
+}
+
+.financial-ticker { 
+    font-size: 0.8rem; 
+    background: rgba(255, 255, 255, 0.04); 
+    padding: 4px 12px; 
+    border-radius: 20px; 
+}
+
+.trend-indicator.up { 
+    color: var(--trend-positive); 
+    margin-left: 4px; 
+}
+
+.bookmarks-ticker-wrapper {
     display: flex;
     align-items: center;
-    gap: 24px;
+    justify-content: center;
 }
 
-.timestamp-view {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.weather-widget {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.88rem;
-}
-
-.weather-condition-icon {
-    font-size: 1.25rem;
-}
-
-.weather-info-meta {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-
-.geo-tag {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.temperature-reading {
-    font-size: 0.88rem;
+.nav-bookmark-btn {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #ffffff;
+    border: none;
+    padding: 6px 16px;
+    font-size: 0.85rem;
     font-weight: 600;
-}
-
-/* Financial Trackers */
-.financial-ticker {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 0.8rem;
-    background: rgba(255, 255, 255, 0.04);
-    padding: 4px 12px;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.ticker-placement {
-    font-weight: 500;
+.nav-bookmark-btn:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px -2px rgba(79, 70, 229, 0.3);
 }
 
-.trend-indicator.up {
-    color: var(--trend-positive);
-    margin-left: 4px;
+.nav-bookmark-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px -1px rgba(79, 70, 229, 0.2);
 }
 
 /* ==========================================================================
-   6. FEED COMPONENT & RESPONSIVE GRID LAYOUT
+   5. FEED HEADERS & news CARDS SYSTEM
    ========================================================================== */
-.headlines-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
+.headlines-wrapper { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.5rem; 
+    width: 100%; 
 }
 
-.feed-headline {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--ink-primary);
-    letter-spacing: -0.5px;
-    margin-top: 1rem;
+.feed-headline { 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+    margin-top: 1rem; 
 }
 
-.cards-layout-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-    width: 100%;
+.cards-layout-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 1.5rem; 
+    width: 100%; 
 }
 
-/* Individual News Modules */
 .news-card {
     background-color: var(--bg-surface);
     border-radius: var(--radius-smooth);
@@ -340,114 +360,427 @@ body {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
-    transition: transform var(--motion-smooth) cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow var(--motion-smooth);
+    transition: transform var(--motion-smooth) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--motion-smooth);
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
 }
 
-.news-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+.news-card:hover { 
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08); 
 }
 
-.card-image-wrapper {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #e2e8f0;
-    overflow: hidden;
+.card-image-wrapper { 
+    width: 100%; 
+    aspect-ratio: 16 / 9; 
+    background-color: #e2e8f0; 
+    overflow: hidden; 
 }
 
-.card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.card-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover !important; 
 }
 
-.card-content {
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    gap: 0.85rem;
+.card-content { 
+    padding: 1.25rem; 
+    display: flex; 
+    flex-direction: column; 
+    flex-grow: 1; 
+    gap: 0.85rem; 
 }
 
-.card-title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--ink-primary);
-    line-height: 1.4;
+.card-title { 
+    font-size: 1.05rem; 
+    font-weight: 600; 
+    line-height: 1.4; 
 }
 
-.card-meta {
-    margin-top: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    color: var(--ink-subtle);
-    font-weight: 500;
-}
-
-.news-source {
-    font-weight: 600;
-    color: var(--bg-navbar);
-}
-
-/* Feed Notification Panel Framework elements */
-.feed-status-message {
-    grid-column: 1 / -1;
-    padding: 3rem;
-    text-align: center;
-    color: #64748b; /* Sleek, neutral color token */
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-}
-
-.error-boundary-state {
-    grid-column: 1 / -1;
-    padding: 3rem;
-    text-align: center;
-}
-
-.error-boundary-state h3 {
-    color: #ef4444; /* Soft alert red text representing structural breakdown feedback */
-    margin-bottom: 0.5rem;
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.error-boundary-state p {
-    color: var(--ink-subtle);
-    font-size: 0.95rem;
+.card-meta { 
+    margin-top: auto; 
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 0.8rem; 
+    color: var(--ink-subtle); 
 }
 
 /* ==========================================================================
-   7. ADAPTIVE MEDIA BREAKPOINTS (Mobile Refactoring)
+   6. FLOATING ACTIONS ARCHITECTURE (DISMISS & SAVE INTERACTION OVERLAYS)
+   ========================================================================== */
+.crud-delete-overlay-btn, 
+.bookmark-save-btn {
+    width: 28px !important;
+    height: 28px !important;
+    border: none !important;
+    border-radius: 50% !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+    transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease !important;
+    opacity: 0; 
+    transform: scale(0.85);
+    z-index: 15;
+}
+
+/* Position settings for standard layout vertical grids */
+.news-card .crud-delete-overlay-btn {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    background-color: rgba(239, 68, 68, 0.95) !important; 
+    font-size: 1.15rem !important;
+    line-height: 1 !important;
+}
+
+.news-card .bookmark-save-btn {
+    position: absolute !important;
+    top: 12px !important;
+    right: 46px !important; 
+    background-color: rgba(31, 41, 55, 0.85) !important; 
+    font-size: 0.85rem !important;
+}
+
+.news-card:hover .crud-delete-overlay-btn,
+.news-card:hover .bookmark-save-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Position settings for horizontal rows viewports */
+.news-horizontal-row .crud-delete-overlay-btn {
+    position: absolute !important;
+    top: 50% !important;
+    right: 20px !important; 
+    transform: translateY(-50%) scale(0.85) !important;
+    background-color: rgba(239, 68, 68, 0.95) !important;
+    font-size: 1.15rem !important;
+}
+
+.news-horizontal-row .bookmark-save-btn {
+    position: absolute !important;
+    top: 50% !important;
+    right: 56px !important; 
+    transform: translateY(-50%) scale(0.85) !important;
+    background-color: rgba(31, 41, 55, 0.85) !important;
+    font-size: 0.85rem !important;
+}
+
+.news-horizontal-row:hover .crud-delete-overlay-btn,
+.news-horizontal-row:hover .bookmark-save-btn {
+    opacity: 1;
+}
+
+.news-horizontal-row:hover .crud-delete-overlay-btn {
+    transform: translateY(-50%) scale(1) !important;
+}
+
+.news-horizontal-row:hover .bookmark-save-btn {
+    transform: translateY(-50%) scale(1) !important;
+}
+
+/* Hover background modifications */
+.crud-delete-overlay-btn:hover { 
+    background-color: #dc2626 !important; 
+    transform: scale(1.08) !important; 
+}
+
+.bookmark-save-btn:hover { 
+    background-color: #374151 !important; 
+}
+
+/* Active Bookmarked State Indicators */
+.bookmark-save-btn.saved-active {
+    background-color: #1a73e8 !important; 
+    opacity: 1 !important;
+}
+
+.news-card .bookmark-save-btn.saved-active {
+    transform: scale(1) !important;
+}
+
+.news-horizontal-row .bookmark-save-btn.saved-active {
+    transform: translateY(-50%) scale(1) !important;
+}
+
+.bookmark-save-btn.saved-active:hover { 
+    background-color: #1557b0 !important; 
+}
+
+/* ==========================================================================
+   7. RECORD BADGES & LOADING SHIMMER SKELETONS
+   ========================================================================== */
+.headline-counter-badge {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: rgba(11, 87, 208, 0.1);
+    color: #0b57d0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    margin-left: 8px;
+    border: 1px solid rgba(11, 87, 208, 0.15);
+}
+
+.platform-display-title .headline-counter-badge {
+    font-size: 1.1rem;
+    padding: 4px 14px;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.skeleton-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-smooth);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    height: 380px; 
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(90deg, #e2e8f0 25%, #edf2f7 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmerLoading 1.5s infinite linear;
+}
+
+.skeleton-body {
+    padding: 1.25rem; 
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex-grow: 1;
+}
+
+.skeleton-line {
+    height: 16px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #edf2f7 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmerLoading 1.5s infinite linear;
+    border-radius: 4px;
+}
+
+.skeleton-line.title-long { width: 90%; height: 18px; }
+.skeleton-line.title-short { width: 65%; height: 18px; }
+.skeleton-line.meta-left { width: 35%; height: 12px; margin-top: auto; }
+.skeleton-line.meta-right { width: 25%; height: 12px; margin-top: auto; }
+
+.skeleton-meta-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    width: 100%;
+}
+
+@keyframes shimmerLoading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ==========================================================================
+   8. COMPONENT VALIDATION & AUTHENTICATION MODAL
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 19, 34, 0.85); 
+    backdrop-filter: blur(5px);
+    z-index: 5000;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: opacity 0.25s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.auth-modal-box {
+    background-color: #ffffff;
+    max-width: 420px;
+    width: 100%;
+    border-radius: var(--radius-smooth);
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    color: var(--ink-primary);
+    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close-trigger {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    font-weight: 300;
+    cursor: pointer;
+    color: var(--ink-subtle);
+    transition: color 0.15s;
+}
+
+.modal-close-trigger:hover {
+    color: #ef4444;
+}
+
+.modal-title-header {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-right: 24px;
+    color: var(--bg-navbar);
+    border-bottom: 2px solid var(--bg-canvas);
+    padding-bottom: 10px;
+}
+
+.form-input-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+}
+
+.form-field-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modal-input-field {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--motion-smooth), box-shadow var(--motion-smooth);
+}
+
+.modal-input-field:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+
+.modal-input-field.input-invalid {
+    border-color: #ef4444 !important;
+    background-color: #fef2f2;
+}
+
+.modal-input-field.input-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+.error-msg {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #ef4444;
+    min-height: 16px;
+    display: block;
+    margin-top: 2px;
+}
+
+.global-form-feedback {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+    min-height: 20px;
+    margin: 1rem 0;
+    padding: 0;
+    display: block;
+}
+
+.global-form-feedback.error-state {
+    color: #ef4444;
+    background-color: #fef2f2;
+    padding: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+.global-form-feedback.success-state {
+    color: #047857;
+    background-color: #ecfdf5;
+    padding: 8px;
+    border: 1px solid rgba(4, 120, 87, 0.15);
+}
+
+.modal-submit-action-btn {
+    width: 100%;
+    padding: 11px;
+    background-color: #0b57d0;
+    color: #ffffff;
+    border: none;
+    border-radius: 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(11, 87, 208, 0.2);
+    transition: background-color var(--motion-smooth), transform 0.1s ease;
+}
+
+.modal-submit-action-btn:hover {
+    background-color: #0a4ebd;
+}
+
+.modal-submit-action-btn:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   9. GLOBAL MEDIA QUERY VIEWPORT RESPONSIVENESS
    ========================================================================== */
 @media (max-width: 768px) {
-    .navbar-wrapper { 
-        padding: 1rem 1rem 0; 
-    }
     .navbar-upper { 
         flex-direction: column; 
         gap: 1rem; 
     }
+
     .search-shell { 
         max-width: 100%; 
         order: 2; 
     }
+
     .user-control-cluster { 
         width: 100%; 
         justify-content: flex-end; 
         order: 1; 
     }
+
     .live-metrics-bar { 
         flex-direction: column; 
         gap: 0.75rem; 
         padding: 1rem; 
-        align-items: flex-start; 
+        align-items: stretch;
     }
+    
+    .live-metrics-bar .topic-pill-btn-wrapper, 
+    .live-metrics-bar .bookmarks-ticker-wrapper {
+        align-self: flex-end; 
+    }
+
     .cards-layout-grid { 
         grid-template-columns: 1fr; 
     }

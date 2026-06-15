@@ -8,56 +8,199 @@
 </head>
 <body>
     <div class="portal-root">
-        
         <header class="navbar-wrapper">
-            <div class="navbar-upper">
+            <div class="navbar-upper">  
                 <div class="search-shell">
                     <span class="search-indicator">🔍</span>
                     <input type="text" placeholder="Search for topics..." class="search-field">
                 </div>
+
                 <div class="user-control-cluster">
-                    <div class="avatar-trigger" aria-label="Profile"></div>
+                    <button class="nav-btn login-btn">Log In</button>
+                    <button class="nav-btn signup-btn">Sign Up</button>
+                    
+                    <button class="avatar-trigger" id="avatarBtn" aria-label="Profile Menu">
+                        <span class="avatar-letter"></span>
+                    </button>
+                
                     <button class="config-trigger">⚙️</button>
                 </div>
             </div>
-
             <nav class="topic-scroll-pane">
                 <ul class="topic-list">
-                    <li class="topic-pill selected" data-category="Home">Home</li>
-                    <li class="pill-separator"></li>
-                    <li class="topic-pill" data-category="India">India</li>
-                    <li class="topic-pill" data-category="World">World</li>
-                    <li class="topic-pill" data-category="Business">Business</li>
-                    <li class="topic-pill" data-category="Technology">Technology</li>
-                    <li class="topic-pill" data-category="Sports">Sports</li>
-                    <li class="topic-pill" data-category="Science">Science</li>
-                    <li class="topic-pill" data-category="Health">Health</li>
+                    <li class="topic-pill custom-dropdown-wrapper selected" id="foryou-news-pill">
+                        <span class="pill-label-text">For you ▼</span>
+                        <select id="foryou-selector" class="dropdown-menu-style" aria-label="Select Filter preference">
+                            <option value="Home" selected>Home</option>
+                            <option value="Business">Business</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Science">Science</option>
+                            <option value="Entertainment">Entertainment</option>
+                        </select>
+                    </li>
+
+                    
+
+                    <li class="topic-pill world-news-wrapper" id="world-news-pill">
+                        <span class="pill-label-text">World News ▼</span>
+                        <select id="world-selector" class="dropdown-menu-style" aria-label="Select Country">
+                            <option value="india" selected>India</option>
+                            <option value="us">United States</option>
+                            <option value="gb">United Kingdom</option>
+                            <option value="ca">Canada</option>
+                            <option value="au">Australia</option>
+                            <option value="cn">China</option>
+                            <option value="jp">Japan</option>
+                            <option value="de">Germany</option>
+                            <option value="fr">France</option>
+                            <option value="ru">Russia</option>
+                            <option value="sg">Singapore</option>
+                            <option value="ae">UAE / Dubai</option>
+                            <option value="sa">Saudi Arabia</option>
+                            <option value="il">Israel</option>
+                            <option value="it">Italy</option>
+                            <option value="es">Spain</option>
+                            <option value="nz">New Zealand</option>
+                            <option value="za">South Africa</option>
+                            <option value="br">Brazil</option>
+                            <option value="kr">South Korea</option>
+                            <option value="hk">Hong Kong</option>
+                            <option value="tw">Taiwan</option>
+                            <option value="my">Malaysia</option>
+                            <option value="ch">Switzerland</option>
+                            <option value="se">Sweden</option>
+                            <option value="nl">Netherlands</option>
+                            <option value="pk">Pakistan</option>
+                            <option value="bd">Bangladesh</option>
+                            <option value="lk">Sri Lanka</option>
+                            <option value="np">Nepal</option>
+                        </select>
+                    </li>
+
+                    <li class="topic-pill state-news-wrapper" id="state-news-pill">
+                        <span class="pill-label-text">State News ▼</span>
+                        <select id="state-selector" class="dropdown-menu-style" aria-label="Select Indian State">
+                            <option value="maharashtra" selected>Maharashtra</option>
+                            <option value="andhra pradesh">Andhra Pradesh</option>
+                            <option value="arunachal pradesh">Arunachal Pradesh</option>
+                            <option value="assam">Assam</option>
+                            <option value="bihar">Bihar</option>
+                            <option value="chhattisgarh">Chhattisgarh</option>
+                            <option value="goa">Goa</option>
+                            <option value="gujarat">Gujarat</option>
+                            <option value="haryana">Haryana</option>
+                            <option value="himachal pradesh">Himachal Pradesh</option>
+                            <option value="jharkhand">Jharkhand</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="kerala">Kerala</option>
+                            <option value="madhya pradesh">Madhya Pradesh</option>
+                            <option value="manipur">Manipur</option>
+                            <option value="meghalaya">Meghalaya</option>
+                            <option value="mizoram">Mizoram</option>
+                            <option value="nagaland">Nagaland</option>
+                            <option value="odisha">Odisha</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="rajasthan">Rajasthan</option>
+                            <option value="sikkim">Sikkim</option>
+                            <option value="tamil nadu">Tamil Nadu</option>
+                            <option value="telangana">Telangana</option>
+                            <option value="tripura">Tripura</option>
+                            <option value="uttar pradesh">Uttar Pradesh</option>
+                            <option value="uttarakhand">Uttarakhand</option>
+                            <option value="west bengal">West Bengal</option>
+                            <option value="delhi">Delhi UT</option>
+                            <option value="jammu and kashmir">Jammu & Kashmir</option>
+                            <option value="ladakh">Ladakh</option>
+                            <option value="chandigarh">Chandigarh</option>
+                            <option value="puducherry">Puducherry</option>
+                        </select>
+                    </li>
+                    <li class="topic-pill custom-dropdown-wrapper" id="indian-platforms-pill">
+                        <span class="pill-label-text">Top Indian Platforms ▼</span>
+                        <select id="indian-platform-selector" class="dropdown-menu-style" aria-label="Select Indian Platform">
+                            <option value="timesofindia.indiatimes.com" selected>Times of India</option>
+                            <option value="thehindu.com">The Hindu</option>
+                            <option value="indianexpress.com">Indian Express</option>
+                            <option value="ndtv.com">NDTV News</option>
+                            <option value="hindustantimes.com">Hindustan Times</option>
+                            <option value="livemint.com">Mint</option>
+                            <option value="moneycontrol.com">Moneycontrol</option>
+                            <option value="economictimes.indiatimes.com">Economic Times</option>
+                            <option value="business-standard.com">Business Standard</option>
+                        </select>
+                    </li>
+
+                    <li class="topic-pill custom-dropdown-wrapper" id="intl-platforms-pill">
+                        <span class="pill-label-text">Top International Platforms ▼</span>
+                        <select id="intl-platform-selector" class="dropdown-menu-style" aria-label="Select International Platform">
+                            <option value="reuters.com">Reuters</option>
+                            <option value="bbc.com" selected>BBC News</option>
+                            <option value="cnn.com">CNN</option>
+                            <option value="nytimes.com" >The New York Times</option>
+                            <option value="bloomberg.com">Bloomberg</option>
+                            <option value="theguardian.com">The Guardian</option>
+                            <option value="techcrunch.com">TechCrunch</option>
+                            <option value="theverge.com">The Verge</option>
+                        </select>
+                    </li>
+                    
                 </ul>
             </nav>
         </header>
 
         <div class="live-metrics-bar">
             <div class="metrics-left-deck">
-                <span id="live-date-box" class="timestamp-view">Sunday, 17 May</span>
+                <span id="live-date-box" class="timestamp-view">Loading date...</span>
                 <div class="weather-widget">
-                    <span class="weather-condition-icon">🌙</span>
+                    <span id="weather-icon" class="weather-condition-icon">⏳</span>
                     <div class="weather-info-meta">
-                        <span class="geo-tag">Amravati</span>
-                        <span class="temperature-reading">38°C</span>
+                        <span id="location-box" class="geo-tag">Locating...</span>
+                        <span id="temp-box" class="temperature-reading">--°C</span>
                     </div>
                 </div>
             </div>
-            <div class="financial-ticker">
-                <span class="ticker-placement">NIFTY 50 <span class="trend-indicator up">▲ 0.84%</span></span>
+            
+            <!-- Replaced financial-ticker with Bookmarks -->
+            <div class="topic-pill-btn-wrapper" id="bookmarks-shortcut-pill" data-category="Bookmarks">
+                <button class="nav-bookmark-btn">⭐ Bookmarks</button>
             </div>
         </div>
         
         <main class="content-viewport">
             <div class="headlines-wrapper">
-                <h2 class="feed-headline">Top stories</h2>
+                <div id="dynamic-headline-area">
+                    <h2 class="feed-headline">Top stories</h2>
+                </div>
                 <div id="news-grid" class="cards-layout-grid"></div>
             </div>
         </main> 
+
+        <div class="modal-overlay" id="authModalOverlay">
+            <div class="auth-modal-box">
+                <button class="modal-close-trigger" id="closeAuthModal">×</button>
+                <h3 class="modal-title-header" id="modalTitle">Account Access</h3>
+                
+                <form id="portalAuthForm" novalidate>
+                    <div class="form-input-shell">
+                        <label for="authUsername" class="form-field-label">Username</label>
+                        <input type="text" id="authUsername" placeholder="Enter username..." class="modal-input-field">
+                        <span class="error-msg" id="usernameError"></span>
+                    </div>
+                    
+                    <div class="form-input-shell">
+                        <label for="authPassword" class="form-field-label">Password</label>
+                        <input type="password" id="authPassword" placeholder="Enter password..." class="modal-input-field">
+                        <span class="error-msg" id="passwordError"></span>
+                    </div>
+
+                    <div class="global-form-feedback" id="globalFormFeedback"></div>
+                    
+                    <button type="submit" class="modal-submit-action-btn" id="modalSubmitBtn">Submit</button>
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <script type="module" src="src/index.js"></script>
