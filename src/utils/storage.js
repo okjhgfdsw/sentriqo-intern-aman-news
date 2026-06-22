@@ -1,26 +1,48 @@
-const BOOKMARKS_KEY='sentriqo_news_bookmarks'; //use as name of folder to find location
+// ==========================================================================
+// CENTRAL STORAGE PERSISTENCE UTILITY LAYER (DYNAMIC ACCOUNTS STORAGE)
+// ==========================================================================
 
-export const saveBookmarks=(bookmarks)=>{
-    try{
-        const data=JSON.stringify(bookmarks); // it only takes string so convert array into string
-        localStorage.setItem(BOOKMARKS_KEY,data); //predefine function
-    }catch(error){
-        console.error("Error saving to localStorage:",error);
+const BASE_BOOKMARKS_KEY = 'sentriqo_news_bookmarks'; 
+
+/**
+ * Helper function to dynamically construct an account-specific storage key string.
+ */
+const getDynamicAccountKey = () => {
+    // Automatically checks if window.getStorageSuffixKey exists, fallback to 'guest'
+    const suffix = (typeof window.getStorageSuffixKey === 'function') 
+        ? window.getStorageSuffixKey() 
+        : 'guest';
+    
+    // Returns something like 'sentriqo_news_bookmarks_amanupadhyay1980@gmail.com'
+    return `${BASE_BOOKMARKS_KEY}_${suffix}`;
+};
+
+export const saveBookmarks = (bookmarks) => {
+    try {
+        const data = JSON.stringify(bookmarks); // Convert array into string representation
+        const dynamicKey = getDynamicAccountKey(); // 🛠️ Find the exact user folder key location
+        
+        localStorage.setItem(dynamicKey, data); 
+        console.log(`💾 Saved bookmarks into secure location: [${dynamicKey}]`);
+    } catch (error) {
+        console.error("Error saving to localStorage:", error);
     }
-}
-
+};
 
 export const getBookmarks = () => {
     try {
-        const data = localStorage.getItem(BOOKMARKS_KEY);
-      //  return data ? JSON.parse(data) : [];  // it will convert string into Array this ternary operator
-      let result;
-if (data) {
-  result = JSON.parse(data);  // it will convert string into Array
-} else {
-  result = [];
-}
-return result;
+        const dynamicKey = getDynamicAccountKey(); // 🛠️ Find the exact user folder key location
+        const data = localStorage.getItem(dynamicKey);
+        
+        let result;
+        if (data) {
+            result = JSON.parse(data); // Convert string representation back into an Array
+        } else {
+            result = [];
+        }
+        
+        console.log(`📂 Loaded bookmarks from location: [${dynamicKey}] - Count: ${result.length}`);
+        return result;
     } catch (error) {
         console.error("Error reading from localStorage:", error);
         return [];

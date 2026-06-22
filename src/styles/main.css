@@ -1,22 +1,28 @@
 /* ==========================================================================
-   1. ROOT VARIABLES & CORE ARCHITECTURE
+   1. ROOT VARIABLES & GLOBAL RESET
    ========================================================================== */
 :root {
-    --bg-navbar: #071a2f;
-    /*  blue color for navigation bar */
+    --bg-navbar: #071a2f; 
     --bg-ticker: #051322;  
-     /* Dark blue color for the bg line where temp,day and bookmark are placed. */
     --bg-canvas: #f4f6f9;       
-        /* white color for main bg of website not affect header  */
     --bg-surface: #ffffff;     
     --ink-primary: #1a1a1a;     
     --ink-subtle: #666666;      
     --neon-highlight: #00d2ff;  
     --trend-positive: #34d399;  
     --radius-smooth: 16px;      
-    /* Round corner for boxes and cards */
     --motion-smooth: 0.25s ease;
-    /* for smooth scrolling */
+}
+
+[data-theme="dark"] {
+    --bg-navbar: #0b131f;
+    --bg-ticker: #070c14;
+    --bg-canvas: #0f172a;
+    --bg-surface: #1e293b;
+    --ink-primary: #f8fafc;
+    --ink-subtle: #94a3b8;
+    --neon-highlight: #38bdf8;
+    --trend-positive: #4ade80;
 }
 
 * {
@@ -31,6 +37,7 @@ body {
     color: var(--ink-primary);
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
+    transition: background-color var(--motion-smooth), color var(--motion-smooth);
 }
 
 .portal-root {
@@ -48,25 +55,27 @@ body {
     flex: 1 0 auto;
 }
 
+
 /* ==========================================================================
-   2. NAVBAR & UPPER USER CONTROLS
+   2. NAVBAR & CONTROLS
    ========================================================================== */
 .navbar-wrapper {
-    background-color: var(--bg-navbar);    /* set background color */
-    padding: 1rem 2rem 0;                  /*give 1rem padding to top,2rem padding to side,0rem padding to bottom */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);   /*this will create shadow in navbar */
-    position: sticky;  /*set sticky look at the top*/
+    background-color: var(--bg-navbar);    
+    padding: 1rem 2rem 0;                                          
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);   
+    position: sticky;  
     top: 0;               
     z-index: 1000;
     display: flex;
-    flex-direction: column; /*Arrange inner element in vertical column */
-    gap: 1rem;              /*1rem gap between each inner element */
+    flex-direction: column; 
+    gap: 1rem;              
+    transition: background-color var(--motion-smooth);
 }
 
 .navbar-upper {
     display: flex;
     align-items: center;
-    justify-content: space-between; /*make a space between search bar and put login logout on the right */
+    justify-content: space-between; 
     width: 100%;
 }
 
@@ -97,6 +106,10 @@ body {
     transition: all var(--motion-smooth);
 }
 
+[data-theme="dark"] .search-field {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .search-field:focus {
     background-color: rgba(255, 255, 255, 0.15);
     border-color: var(--neon-highlight);
@@ -122,10 +135,41 @@ body {
     color: #4c8bf5;
 }
 
+[data-theme="dark"] .login-btn {
+    border-color: var(--neon-highlight);
+    color: var(--neon-highlight);
+}
+
 .signup-btn {
     background-color: #0b57d0;
     border: none;
     color: white;
+}
+
+[data-theme="dark"] .signup-btn {
+    background-color: #1d4ed8;
+}
+
+.theme-toggle-trigger, 
+.export-trigger {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.25rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--motion-smooth);
+}
+
+.theme-toggle-trigger:hover, 
+.export-trigger:hover, 
+.config-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .avatar-trigger {
@@ -163,8 +207,9 @@ body {
     justify-content: center;
 }
 
+
 /* ==========================================================================
-   3. NAVIGATION TOPIC SCROLL & DROPDOWNS
+   3. NAVIGATION TOPICS & DROPDOWNS
    ========================================================================== */
 .topic-scroll-pane {
     width: 100%;
@@ -236,12 +281,17 @@ body {
 }
 
 .dropdown-menu-style option {
-    background-color: var(--bg-navbar);
+    background-color: #071a2f;
     color: #ffffff;
 }
 
+[data-theme="dark"] .dropdown-menu-style option {
+    background-color: #0b131f;
+}
+
+
 /* ==========================================================================
-   4. LIVE METRICS & NAV BOOKMARKS BAR
+   4. LIVE METRICS & BOOKMARKS BAR
    ========================================================================== */
 .live-metrics-bar {
     background-color: var(--bg-ticker);
@@ -250,6 +300,7 @@ body {
     align-items: center;
     justify-content: space-between;
     color: #ffffff;
+    transition: background-color var(--motion-smooth);
 }
 
 .metrics-left-deck { 
@@ -285,24 +336,6 @@ body {
     font-weight: 600; 
 }
 
-.financial-ticker { 
-    font-size: 0.8rem; 
-    background: rgba(255, 255, 255, 0.04); 
-    padding: 4px 12px; 
-    border-radius: 20px; 
-}
-
-.trend-indicator.up { 
-    color: var(--trend-positive); 
-    margin-left: 4px; 
-}
-
-.bookmarks-ticker-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .nav-bookmark-btn {
     background: linear-gradient(135deg, #6366f1, #4f46e5);
     color: #ffffff;
@@ -325,13 +358,9 @@ body {
     box-shadow: 0 6px 12px -2px rgba(79, 70, 229, 0.3);
 }
 
-.nav-bookmark-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px -1px rgba(79, 70, 229, 0.2);
-}
 
 /* ==========================================================================
-   5. FEED HEADERS & news CARDS SYSTEM
+   5. CARDS GRID SYSTEM (STANDARD RESPONSIVE FEED)
    ========================================================================== */
 .headlines-wrapper { 
     display: flex; 
@@ -360,10 +389,15 @@ body {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-direction: column;
-    transition: transform var(--motion-smooth) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--motion-smooth);
+    transition: transform var(--motion-smooth) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--motion-smooth), background-color var(--motion-smooth);
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.03);
     position: relative;
+}
+
+[data-theme="dark"] .news-card {
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .news-card:hover { 
@@ -371,17 +405,43 @@ body {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08); 
 }
 
-.card-image-wrapper { 
-    width: 100%; 
-    aspect-ratio: 16 / 9; 
-    background-color: #e2e8f0; 
-    overflow: hidden; 
+[data-theme="dark"] .news-card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
-.card-img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover !important; 
+.card-image-wrapper {
+    width: 100%;
+    height: 180px;
+    background-color: #0f172a;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+[data-theme="dark"] .card-image-wrapper {
+    background-color: #334155;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+/* Specific styling for nested images to retain crop and corners perfectly */
+.card-image-wrapper img,
+.img-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: top center !important; 
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-content { 
@@ -406,8 +466,93 @@ body {
     color: var(--ink-subtle); 
 }
 
+
 /* ==========================================================================
-   6. FLOATING ACTIONS ARCHITECTURE (DISMISS & SAVE INTERACTION OVERLAYS)
+   6. ROW LAYOUT SYSTEM (DESKTOP MODES)
+   ========================================================================== */
+.platform-rows-layout-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+@media (min-width: 769px) {
+    .platform-rows-layout-deck .news-horizontal-row {
+        display: flex;
+        flex-direction: row;
+        background-color: var(--bg-surface);
+        border-radius: var(--radius-smooth);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        position: relative;
+        width: 100%;
+        height: 160px;
+        transition: transform var(--motion-smooth), box-shadow var(--motion-smooth);
+    }
+
+    [data-theme="dark"] .platform-rows-layout-deck .news-horizontal-row {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row:hover {
+        transform: translateX(6px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-image-wrapper {
+        width: 260px;
+        height: 100%;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0f172a;
+        overflow: hidden;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-content {
+        padding: 1.5rem 6rem 1.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .crud-delete-overlay-btn {
+        position: absolute !important;
+        top: 50% !important;
+        right: 16px !important;
+        transform: translateY(-50%) scale(0.9) !important;
+        opacity: 0.8;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .bookmark-save-btn {
+        position: absolute !important;
+        top: 50% !important;
+        right: 52px !important;
+        transform: translateY(-50%) scale(0.9) !important;
+        opacity: 0.8;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row:hover .crud-delete-overlay-btn,
+    .platform-rows-layout-deck .news-horizontal-row:hover .bookmark-save-btn {
+        opacity: 1;
+        transform: translateY(-50%) scale(1) !important;
+    }
+}
+
+
+/* ==========================================================================
+   7. FLOATING ACTIONS & CARDS INTERACTION CONTROLS
    ========================================================================== */
 .crud-delete-overlay-btn, 
 .bookmark-save-btn {
@@ -427,7 +572,6 @@ body {
     z-index: 15;
 }
 
-/* Position settings for standard layout vertical grids */
 .news-card .crud-delete-overlay-btn {
     position: absolute !important;
     top: 12px !important;
@@ -451,7 +595,6 @@ body {
     transform: scale(1);
 }
 
-/* Position settings for horizontal rows viewports */
 .news-horizontal-row .crud-delete-overlay-btn {
     position: absolute !important;
     top: 50% !important;
@@ -483,7 +626,6 @@ body {
     transform: translateY(-50%) scale(1) !important;
 }
 
-/* Hover background modifications */
 .crud-delete-overlay-btn:hover { 
     background-color: #dc2626 !important; 
     transform: scale(1.08) !important; 
@@ -493,27 +635,11 @@ body {
     background-color: #374151 !important; 
 }
 
-/* Active Bookmarked State Indicators */
 .bookmark-save-btn.saved-active {
     background-color: #1a73e8 !important; 
     opacity: 1 !important;
 }
 
-.news-card .bookmark-save-btn.saved-active {
-    transform: scale(1) !important;
-}
-
-.news-horizontal-row .bookmark-save-btn.saved-active {
-    transform: translateY(-50%) scale(1) !important;
-}
-
-.bookmark-save-btn.saved-active:hover { 
-    background-color: #1557b0 !important; 
-}
-
-/* ==========================================================================
-   7. RECORD BADGES & LOADING SHIMMER SKELETONS
-   ========================================================================== */
 .headline-counter-badge {
     display: inline-block;
     vertical-align: middle;
@@ -527,15 +653,16 @@ body {
     border: 1px solid rgba(11, 87, 208, 0.15);
 }
 
-.platform-display-title .headline-counter-badge {
-    font-size: 1.1rem;
-    padding: 4px 14px;
-    border-radius: 16px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.2);
+[data-theme="dark"] .headline-counter-badge {
+    background-color: rgba(56, 189, 248, 0.1);
+    color: var(--neon-highlight);
+    border-color: rgba(56, 189, 248, 0.2);
 }
 
+
+/* ==========================================================================
+   8. SHIMMER LOADING SKELETONS
+   ========================================================================== */
 .skeleton-card {
     background: var(--bg-surface);
     border-radius: var(--radius-smooth);
@@ -554,6 +681,11 @@ body {
     animation: shimmerLoading 1.5s infinite linear;
 }
 
+[data-theme="dark"] .skeleton-image {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+}
+
 .skeleton-body {
     padding: 1.25rem; 
     display: flex;
@@ -568,6 +700,11 @@ body {
     background-size: 200% 100%;
     animation: shimmerLoading 1.5s infinite linear;
     border-radius: 4px;
+}
+
+[data-theme="dark"] .skeleton-line {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
 }
 
 .skeleton-line.title-long { width: 90%; height: 18px; }
@@ -587,8 +724,9 @@ body {
     100% { background-position: -200% 0; }
 }
 
+
 /* ==========================================================================
-   8. COMPONENT VALIDATION & AUTHENTICATION MODAL
+   9. AUTHENTICATION MODAL
    ========================================================================== */
 .modal-overlay {
     position: fixed;
@@ -603,7 +741,6 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    transition: opacity 0.25s ease;
 }
 
 .modal-overlay.active {
@@ -611,7 +748,7 @@ body {
 }
 
 .auth-modal-box {
-    background-color: #ffffff;
+    background-color: var(--bg-surface);
     max-width: 420px;
     width: 100%;
     border-radius: var(--radius-smooth);
@@ -620,11 +757,6 @@ body {
     position: relative;
     color: var(--ink-primary);
     animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modalSlideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-close-trigger {
@@ -637,7 +769,6 @@ body {
     font-weight: 300;
     cursor: pointer;
     color: var(--ink-subtle);
-    transition: color 0.15s;
 }
 
 .modal-close-trigger:hover {
@@ -649,7 +780,7 @@ body {
     font-weight: 700;
     margin-bottom: 1.5rem;
     padding-right: 24px;
-    color: var(--bg-navbar);
+    color: var(--ink-primary);
     border-bottom: 2px solid var(--bg-canvas);
     padding-bottom: 10px;
 }
@@ -676,7 +807,13 @@ body {
     border-radius: 8px;
     font-size: 0.95rem;
     outline: none;
+    background-color: var(--bg-surface);
+    color: var(--ink-primary);
     transition: border-color var(--motion-smooth), box-shadow var(--motion-smooth);
+}
+
+[data-theme="dark"] .modal-input-field {
+    border-color: #475569;
 }
 
 .modal-input-field:focus {
@@ -689,8 +826,8 @@ body {
     background-color: #fef2f2;
 }
 
-.modal-input-field.input-invalid:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+[data-theme="dark"] .modal-input-field.input-invalid {
+    background-color: #451a1a;
 }
 
 .error-msg {
@@ -720,11 +857,20 @@ body {
     border: 1px solid rgba(239, 68, 68, 0.15);
 }
 
+[data-theme="dark"] .global-form-feedback.error-state {
+    background-color: #451a1a;
+}
+
 .global-form-feedback.success-state {
     color: #047857;
     background-color: #ecfdf5;
     padding: 8px;
     border: 1px solid rgba(4, 120, 87, 0.15);
+}
+
+[data-theme="dark"] .global-form-feedback.success-state {
+    background-color: #064e3b;
+    color: #34d399;
 }
 
 .modal-submit-action-btn {
@@ -738,50 +884,660 @@ body {
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(11, 87, 208, 0.2);
-    transition: background-color var(--motion-smooth), transform 0.1s ease;
 }
 
-.modal-submit-action-btn:hover {
-    background-color: #0a4ebd;
-}
-
-.modal-submit-action-btn:active {
-    transform: scale(0.98);
-}
 
 /* ==========================================================================
-   9. GLOBAL MEDIA QUERY VIEWPORT RESPONSIVENESS
+   10. SETTINGS CONFIGURATION PANEL
    ========================================================================== */
+.settings-modal-box {
+    background-color: rgba(21, 32, 43, 0.85); 
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    max-width: 620px;
+    width: 90%;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.1); 
+    position: relative;
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+[data-theme="light"] .settings-modal-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.settings-container-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    overflow-y: auto;
+    padding-right: 4px; 
+}
+
+.setting-row-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    gap: 2rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    
+    /* FIX: Agar tags bohot zyada hon toh poori row responsibly wrap ho jaye */
+    flex-wrap: wrap; 
+}
+
+[data-theme="light"] .setting-row-item {
+    background-color: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.02);
+}
+
+.setting-row-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .setting-row-item:hover {
+    background-color: #f1f5f9;
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+.setting-meta-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+}
+
+.setting-meta-text h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.setting-meta-text p {
+    font-size: 0.84rem;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+[data-theme="light"] .setting-meta-text p {
+    color: #64748b;
+}
+
+.setting-interactive-workspace {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+    
+    /* FIX 2: Isse tags right side me extend hone ke bajaye niche ki taraf wrap honge */
+    flex-wrap: wrap; 
+    max-width: 100%; /* Box se bahar nahi bhagega */
+}
+
+.history-tag-pill {
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+    padding: 6px 14px;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .history-tag-pill {
+    background-color: rgba(11, 87, 208, 0.06);
+    color: #0b57d0;
+    border-color: rgba(11, 87, 208, 0.1);
+}
+
+.history-tag-pill:hover {
+    background-color: #38bdf8;
+    color: #0f172a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+}
+
+[data-theme="light"] .history-tag-pill:hover {
+    background-color: #0b57d0;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(11, 87, 208, 0.2);
+}
+
+.settings-dropdown-menu {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: #1e293b;
+    color: #f8fafc;
+    font-size: 0.9rem;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="light"] .settings-dropdown-menu {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+.settings-dropdown-menu:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+[data-theme="light"] .settings-dropdown-menu:focus {
+    border-color: #0b57d0;
+    box-shadow: 0 0 0 3px rgba(11, 87, 208, 0.1);
+}
+
+
+/* ==========================================================================
+   11. TOGGLE MECHANISMS & DANGER ZONES
+   ========================================================================== */
+.switch-toggle-container {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+}
+
+.switch-toggle-container input {
+    opacity: 0; width: 0; height: 0;
+}
+
+.switch-slider-lever {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 30px;
+}
+
+[data-theme="light"] .switch-slider-lever {
+    background-color: #cbd5e1;
+}
+
+.switch-slider-lever:before {
+    position: absolute;
+    content: "";
+    height: 20px; width: 20px;
+    left: 3px; bottom: 3px;
+    background-color: #ffffff;
+    transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .switch-slider-lever {
+    background-color: #10b981; 
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+}
+
+input:checked + .switch-slider-lever:before {
+    transform: translateX(22px);
+}
+
+.purge-danger-zone {
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    background-color: rgba(239, 68, 68, 0.02);
+}
+
+[data-theme="light"] .purge-danger-zone {
+    border-color: rgba(239, 68, 68, 0.2);
+    background-color: rgba(239, 68, 68, 0.01);
+}
+
+.purge-danger-zone:hover {
+    background-color: rgba(239, 68, 68, 0.04);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.danger-purge-btn {
+    padding: 10px 18px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    background-color: transparent;
+    color: #f87171;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .danger-purge-btn {
+    color: #ef4444;
+}
+
+.danger-purge-btn:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================================================
+   12. 3D CHART GRAPH INTERFACE
+   ========================================================================== */
+.chart-box-wrapper {
+    flex: 1;
+    height: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; 
+}
+
+.chart-box-wrapper canvas {
+    transform: rotateX(15deg) rotateY(-10deg) scale(0.9) !important;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0px 25px 20px rgba(0, 0, 0, 0.6));
+    transition: transform 0.4s ease;
+}
+
+.chart-box-wrapper:hover canvas {
+    transform: rotateX(10deg) rotateY(-5deg) scale(0.95) !important;
+}
+
+.chartjs-tooltip {
+    background: rgba(30, 41, 59, 0.8) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+
+/* ==========================================================================
+   13. MASTER MEDIA QUERIES (GLOBAL RESPONSIVENESS)
+   ========================================================================== */
+
+/* Tablet & Mobile Viewports */
 @media (max-width: 768px) {
     .navbar-upper { 
         flex-direction: column; 
         gap: 1rem; 
     }
-
     .search-shell { 
         max-width: 100%; 
         order: 2; 
     }
-
     .user-control-cluster { 
         width: 100%; 
         justify-content: flex-end; 
         order: 1; 
     }
-
     .live-metrics-bar { 
         flex-direction: column; 
         gap: 0.75rem; 
         padding: 1rem; 
         align-items: stretch;
     }
-    
-    .live-metrics-bar .topic-pill-btn-wrapper, 
-    .live-metrics-bar .bookmarks-ticker-wrapper {
+    .live-metrics-bar .topic-pill-btn-wrapper {
         align-self: flex-end; 
     }
-
     .cards-layout-grid { 
         grid-template-columns: 1fr; 
     }
+
+    /* Horizontal layout cards on mobile screens */
+    .platform-rows-layout-deck .news-horizontal-row {
+        display: flex !important;
+        flex-direction: row !important;
+        height: auto !important; 
+        min-height: 110px;
+        align-items: center;
+        padding: 0.6rem !important;
+        box-sizing: border-box;
+        gap: 0.85rem;
+        background-color: var(--bg-surface);
+        border-radius: var(--radius-smooth);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-image-wrapper {
+        width: 130px !important;   
+        height: 95px !important;
+        flex-shrink: 0 !important;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0f172a;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-content {
+        padding: 0.25rem 2.5rem 0.25rem 0.25rem !important; 
+        min-width: 0;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .card-title {
+        font-size: 1rem !important; 
+        line-height: 1.35 !important;
+        margin: 0 0 6px 0 !important;
+        white-space: normal !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; 
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .crud-delete-overlay-btn {
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 14px !important;
+        opacity: 1 !important;
+        z-index: 10;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row .bookmark-save-btn {
+        position: absolute !important;
+        bottom: 8px !important;
+        right: 8px !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 13px !important;
+        opacity: 1 !important;
+        z-index: 10;
+    }
+
+    .platform-rows-layout-deck .news-horizontal-row:hover .crud-delete-overlay-btn,
+    .platform-rows-layout-deck .news-horizontal-row:hover .bookmark-save-btn {
+        transform: none !important;
+        opacity: 1;
+    }
 }
+
+/* Small Smartphone Panels */
+@media (max-width: 480px) {
+    .settings-modal-box {
+        padding: 1.5rem 1rem; 
+        width: 95%;
+    }
+    
+    .setting-row-item {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .setting-interactive-workspace {
+        width: 100%;
+        justify-content: flex-start; 
+    }
+
+    .setting-interactive-workspace select {
+        width: 100%;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+
+/* ==========================================================================
+   14. SYSTEM ANIMATIONS DEF RULES
+   ========================================================================== */
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes skeleton-pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.4; }
+}
+
+/* ==========================================================================
+   CUSTOM SYSTEM DIALOG OVERLAY CENTERING ENGINE
+   ========================================================================== */
+#customConfirmOverlay.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.75); /* Dark matching aesthetic backing mask */
+    backdrop-filter: blur(8px); /* Locks premium modern focal point blur depth */
+    display: flex;
+    justify-content: center; /* Dead horizontal screen center matching */
+    align-items: center; /* Dead vertical viewport axis centering */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in-out;
+    z-index: 99999 !important; /* Forces the box to stack cleanly over everything else */
+}
+
+#customConfirmOverlay.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* The card structural layout engine inside the overlay shell container */
+.custom-confirm-box {
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2.25rem 2rem;
+    width: 90%;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    transform: scale(0.92);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: #f8fafc;
+}
+
+#customConfirmOverlay.modal-overlay.active .custom-confirm-box {
+    transform: scale(1); /* Snappy bounce animation effect popping outward */
+}
+
+/* Light Theme Variable Support Structure Mapping Hooks */
+[data-theme="light"] .custom-confirm-box {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+}
+
+.confirm-icon-badge {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    display: inline-block;
+}
+
+.confirm-heading {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.02em;
+}
+
+.confirm-message-text {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+}
+[data-theme="light"] .confirm-message-text { color: #64748b; }
+
+.confirm-buttons-cluster {
+    display: flex;
+    justify-content: center; /* Centers both controls perfectly side by side */
+    gap: 1rem;
+    width: 100%;
+}
+
+.confirm-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    flex: 1; /* Makes both control actions balance symmetrical sizes widths */
+    transition: background-color 0.15s ease;
+}
+
+.cancel-action-trigger {
+    background-color: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+}
+.cancel-action-trigger:hover { background-color: rgba(148, 163, 184, 0.25); }
+[data-theme="light"] .cancel-action-trigger { color: #475569; background-color: #f1f5f9; }
+[data-theme="light"] .cancel-action-trigger:hover { background-color: #e2e8f0; }
+
+.execute-action-trigger {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+.execute-action-trigger:hover { background-color: #dc2626; }
+
+/* ==========================================================================
+   DEDICATED ALERT SYSTEM PRESENTATION ENGINE
+   ========================================================================== */
+#systemAlertOverlay.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 999999 !important; /* Extremely high z-index handles foreground priority */
+}
+
+#systemAlertOverlay.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.system-alert-box {
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.2s ease-out;
+    color: #f8fafc;
+}
+
+#systemAlertOverlay.modal-overlay.active .system-alert-box {
+    transform: scale(1);
+}
+
+[data-theme="light"] .system-alert-box {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.alert-icon-graphic {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.alert-header-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+
+.alert-message-body {
+    font-size: 0.92rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin: 0 0 1.5rem 0;
+}
+[data-theme="light"] .alert-message-body { color: #475569; }
+
+.alert-footer-cluster {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.alert-confirm-btn {
+    background-color: #38bdf8; /* Clean UI notification blue accent */
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 100px;
+    transition: background 0.15s ease;
+}
+
+.alert-confirm-btn:hover {
+    background-color: #0ea5e9;
+    color: #ffffff;
+}
+

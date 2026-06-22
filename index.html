@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Aggregator</title>
     <link rel="stylesheet" href="src/styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <div class="portal-root">
@@ -16,14 +18,14 @@
                 </div>
 
                 <div class="user-control-cluster">
-                    <button class="nav-btn login-btn">Log In</button>
-                    <button class="nav-btn signup-btn">Sign Up</button>
-                    
+                    <button class="theme-toggle-trigger" id="themeToggleBtn" aria-label="Toggle Layout Theme">☀️</button>
+                    <button class="export-trigger" id="exportFeedBtn" title="Export Current Clickable Feed">📥</button>
+                    <!-- <button class="nav-btn login-btn">Log In</button> -->
+                 <button class="nav-btn signup-btn" onclick="launchGoogleAuthSequence()">Login using Google</button>
                     <button class="avatar-trigger" id="avatarBtn" aria-label="Profile Menu">
                         <span class="avatar-letter"></span>
                     </button>
-                
-                    <button class="config-trigger">⚙️</button>
+                    <button class="config-trigger" id="settingsToggleBtn">⚙️</button>
                 </div>
             </div>
             <nav class="topic-scroll-pane">
@@ -31,16 +33,13 @@
                     <li class="topic-pill custom-dropdown-wrapper selected" id="foryou-news-pill">
                         <span class="pill-label-text">For you ▼</span>
                         <select id="foryou-selector" class="dropdown-menu-style" aria-label="Select Filter preference">
-                            <option value="Home" selected>Home</option>
-                            <option value="Business">Business</option>
+                            <option value="Business" selected>Business</option>
                             <option value="Technology">Technology</option>
                             <option value="Sports">Sports</option>
                             <option value="Science">Science</option>
                             <option value="Entertainment">Entertainment</option>
                         </select>
                     </li>
-
-                    
 
                     <li class="topic-pill world-news-wrapper" id="world-news-pill">
                         <span class="pill-label-text">World News ▼</span>
@@ -111,11 +110,12 @@
                             <option value="west bengal">West Bengal</option>
                             <option value="delhi">Delhi UT</option>
                             <option value="jammu and kashmir">Jammu & Kashmir</option>
-                            <option value="ladakh">Ladakh</option>
+                            <option value="ladakh">Ask Ladakh</option>
                             <option value="chandigarh">Chandigarh</option>
                             <option value="puducherry">Puducherry</option>
                         </select>
                     </li>
+                    
                     <li class="topic-pill custom-dropdown-wrapper" id="indian-platforms-pill">
                         <span class="pill-label-text">Top Indian Platforms ▼</span>
                         <select id="indian-platform-selector" class="dropdown-menu-style" aria-label="Select Indian Platform">
@@ -144,7 +144,6 @@
                             <option value="theverge.com">The Verge</option>
                         </select>
                     </li>
-                    
                 </ul>
             </nav>
         </header>
@@ -153,15 +152,13 @@
             <div class="metrics-left-deck">
                 <span id="live-date-box" class="timestamp-view">Loading date...</span>
                 <div class="weather-widget">
-                    <span id="weather-icon" class="weather-condition-icon">⏳</span>
+                    
                     <div class="weather-info-meta">
-                        <span id="location-box" class="geo-tag">Locating...</span>
-                        <span id="temp-box" class="temperature-reading">--°C</span>
+                       
+                        
                     </div>
                 </div>
             </div>
-            
-            <!-- Replaced financial-ticker with Bookmarks -->
             <div class="topic-pill-btn-wrapper" id="bookmarks-shortcut-pill" data-category="Bookmarks">
                 <button class="nav-bookmark-btn">⭐ Bookmarks</button>
             </div>
@@ -169,6 +166,19 @@
         
         <main class="content-viewport">
             <div class="headlines-wrapper">
+                <div id="analyticsChartsContainer" class="charts-view-panel" style="display: none; margin-bottom: 2rem;">
+                    <div class="charts-flex-matrix" style="display: flex; gap: 1.5rem; flex-wrap: wrap; background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 16px; backdrop-filter: blur(10px);">
+                        <div class="chart-box-wrapper" style="flex: 1; min-width: 280px; height: 260px; display: flex; flex-direction: column; align-items: center;">
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: #94a3b8; font-weight: 600;">Pie chart of Publisher Source Proportions</h5>
+                            <canvas id="textDensityChart"></canvas>
+                        </div>
+                        <div class="chart-box-wrapper" style="flex: 1; min-width: 280px; height: 260px; display: flex; flex-direction: column; align-items: center;">
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: #94a3b8; font-weight: 600;">Publisher Source Proportions</h5>
+                            <canvas id="sourceShareChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="dynamic-headline-area">
                     <h2 class="feed-headline">Top stories</h2>
                 </div>
@@ -176,33 +186,101 @@
             </div>
         </main> 
 
-        <div class="modal-overlay" id="authModalOverlay">
-            <div class="auth-modal-box">
-                <button class="modal-close-trigger" id="closeAuthModal">×</button>
-                <h3 class="modal-title-header" id="modalTitle">Account Access</h3>
+        <div class="modal-overlay" id="settingsModalOverlay">
+            <div class="settings-modal-box">
+                <button class="modal-close-trigger" id="closeSettingsModal">×</button>
+                <h3 class="modal-title-header">🔧 System Preferences</h3>
                 
-                <form id="portalAuthForm" novalidate>
-                    <div class="form-input-shell">
-                        <label for="authUsername" class="form-field-label">Username</label>
-                        <input type="text" id="authUsername" placeholder="Enter username..." class="modal-input-field">
-                        <span class="error-msg" id="usernameError"></span>
-                    </div>
-                    
-                    <div class="form-input-shell">
-                        <label for="authPassword" class="form-field-label">Password</label>
-                        <input type="password" id="authPassword" placeholder="Enter password..." class="modal-input-field">
-                        <span class="error-msg" id="passwordError"></span>
+                <div class="settings-container-matrix">
+                    <div class="setting-row-item">
+                        <div class="setting-meta-text">
+                            <h4>Recent Search History</h4>
+                            <p>Track, reuse, or clear your session search queries.</p>
+                        </div>
+                        <div class="setting-interactive-workspace" id="searchHistoryTagsTray">
+                            <span class="history-empty-status">No recent searches logged</span>
+                        </div>
                     </div>
 
-                    <div class="global-form-feedback" id="globalFormFeedback"></div>
-                    
-                    <button type="submit" class="modal-submit-action-btn" id="modalSubmitBtn">Submit</button>
-                </form>
+                    <div class="setting-row-item">
+                        <div class="setting-meta-text">
+                            <h4>Aggressive Noise Filter</h4>
+                            <p>Toggle cross-sectional blocks on Cricket, Entertainment, and OTT gossip.</p>
+                        </div>
+                        <div class="setting-interactive-workspace">
+                            <label class="switch-toggle-container">
+                                <input type="checkbox" id="noiseFilterToggle">
+                                <span class="switch-slider-lever"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-row-item">
+                        <div class="setting-meta-text">
+                            <h4>Viewport Card Layout</h4>
+                            <p>Force horizontal high-density listing rows across all views.</p>
+                        </div>
+                        <div class="setting-interactive-workspace">
+                            <select id="densityLayoutSelector" class="settings-dropdown-menu">
+                                <option value="adaptive" selected>Adaptive (Smart Switching)</option>
+                                <option value="horizontal">Force Horizontal Rows</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-row-item">
+                        <div class="setting-meta-text">
+                            <h4>Analytical Insight Panels</h4>
+                            <p>Display rich real-time data charts plotting live metrics arrays.</p>
+                        </div>
+                        <div class="setting-interactive-workspace">
+                            <label class="switch-toggle-container">
+                                <input type="checkbox" id="analyticsPanelToggle">
+                                <span class="switch-slider-lever"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-row-item purge-danger-zone">
+                        <div class="setting-meta-text">
+                            <h4>Cache Database Ledger</h4>
+                            <p>Completely flush local storage, active bookmarks, and hidden block histories.</p>
+                        </div>
+                        <div class="setting-interactive-workspace">
+                            <button class="settings-action-btn danger-purge-btn" id="purgeCacheSystemBtn">Flush System Cache</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <div class="modal-overlay" id="customConfirmOverlay">
+    <div class="custom-confirm-box">
+        <div class="confirm-icon-badge">⚠️</div>
+        <h3 class="confirm-heading">Nuke Alert!</h3>
+        <p class="confirm-message-text">Do you want to Completely flush local storage, active bookmarks, and hidden block histories.</p>
+        <div class="confirm-buttons-cluster">
+            <button class="confirm-btn cancel-action-trigger" id="confirmCancelBtn">Cancel</button>
+            <button class="confirm-btn execute-action-trigger" id="confirmProceedBtn">Proceed</button>
+        </div>
     </div>
+</div>
 
+        <div class="modal-overlay" id="systemAlertOverlay">
+    <div class="system-alert-box">
+        <button class="modal-close-trigger" id="closeAlertModalBtn">×</button>
+        <div class="alert-icon-graphic">⚠️</div>
+        <h3 class="alert-header-title" id="alertModalTitle">Notice</h3>
+        <p class="alert-message-body" id="alertModalBody">Something went wrong.</p>
+        <div class="alert-footer-cluster">
+            <button class="alert-confirm-btn" id="dismissAlertModalBtn">OK</button>
+        </div>
+    </div>
+</div>
+
+        
+    </div>
     <script type="module" src="src/index.js"></script>
 </body>
 </html>

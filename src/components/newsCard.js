@@ -1,5 +1,5 @@
 // ==========================================================================
-// COMPONENT COMPILER LAYER (ORIGINAL VERTICAL BLOCK CARDS WITH STAR OPTIONS)
+// COMPONENT COMPILER LAYER (DYNAMIC MULTI-MEDIA CONTAINMENT SPEC)
 // ==========================================================================
 
 /**
@@ -10,29 +10,53 @@
  * @param {Function} onSave - State pipeline handler to bookmark items persistently
  * @returns {HTMLElement} Compiled individual card node ready for attachment
  */
+// Yeh function dynamic parameters accept karke single news card ka DOM structure taiyar karta hai
 export function createNewsCard(article, index, onDelete, onSave) {
+    // Card container div create karke uski class aur execution tracking index bind kar rahe hain
     const card = document.createElement('div');
     card.className = 'news-card';
     card.setAttribute('data-index', index);
 
-    // Dynamic clean redirection to the original article source URL
+    // Card container click event lagaya hai taaki main article URL naye tab me open ho sake
     card.addEventListener('click', (e) => {
-        if (e.target.classList.contains('crud-delete-overlay-btn') || e.target.classList.contains('bookmark-save-btn')) return;
-        window.open(article.url, '_blank');
+        // Agar action buttons par click hua hai, toh page navigation block bypass kar denge
+        if (e.target.classList.contains('bookmark-save-btn')) return;
+        window.open(article.url, '_blank'); // Naye tab me full news copy open trigger hogi
     });
 
-    // Image wrapper segment compilation featuring lazy loading and broken link guards
+    // Multimedia container properties compile karne ke liye HTML layout buffer strings set
     let imageHTML = '';
     if (article.imgUrl) {
-        imageHTML = `
-            <div class="card-image-wrapper">
-                <img src="${article.imgUrl}" 
-                     loading="lazy" 
-                     class="card-img" 
-                     alt="News Image"
-                     onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' viewBox=\'0 0 16 9\' style=\'background:%23e2e8f0;\'><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'1\' fill=\'%2394a3b8\' text-anchor=\'middle\' dominant-baseline=\'middle\'>📰 No Image</text></svg>';">
-            </div>
-        `;
+        // Regex format test pass karke handle kar rahe hain ki media source video stream format hai ya nahi
+        const isVideoFormat = article.imgUrl.match(/\.(mp4|webm|ogv)(\?.*)?$/i) !== null;
+
+        // Video configurations match hone par loop format html snippet structure apply hoga
+        if (isVideoFormat) {
+            imageHTML = `
+                <div class="card-image-wrapper">
+                    <video src="${article.imgUrl}" 
+                           autoplay 
+                           loop 
+                           muted 
+                           playsinline 
+                           class="card-img"
+                           style="background: #0f172a;">
+                    </video>
+                </div>
+            `;
+        // Standard picture configurations layout with inline fallback dynamic error tracing svg snippets
+        } else {
+            imageHTML = `
+                <div class="card-image-wrapper">
+                    <img src="${article.imgUrl}" 
+                         loading="lazy" 
+                         class="card-img" 
+                         alt="News Thumbnail"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%\' height=\'100%\' viewBox=\'0 0 16 9\' style=\'background:%23e2e8f0;\'><text x=\'50%\' y=\'50%\' font-family=\'sans-serif\' font-size=\'1\' fill=\'%2394a3b8\' text-anchor=\'middle\' dominant-baseline=\'middle\'>📰 No Image</text></svg>';">
+                </div>
+            `;
+        }
+    // Agar dataset property index blank milti hai toh backup static text placeholder structure show hoga
     } else {
         imageHTML = `
             <div class="card-image-wrapper">
@@ -43,15 +67,15 @@ export function createNewsCard(article, index, onDelete, onSave) {
         `;
     }
 
-    // Determine current bookmark active status style layout indicators
+    // Local profile checking steps array verifying if this specific link matches saved elements values
     const savedCollection = JSON.parse(localStorage.getItem('news_bookmarks_collection')) || [];
     const isBookmarked = savedCollection.some(item => item.url === article.url);
     const activeBookmarkClass = isBookmarked ? 'saved-active' : '';
 
-    // Classic core vertical layout framework with clean, isolated explicit star action buttons
+    // Card block layout internal components placement map strings templates setup updates
     card.innerHTML = `
         <button class="bookmark-save-btn ${activeBookmarkClass}" title="Save item">⭐</button>
-        <button class="crud-delete-overlay-btn" title="Dismiss item">×</button>
+       
         ${imageHTML}
         <div class="card-content">
             <h3 class="card-title">${article.title}</h3>
@@ -62,19 +86,14 @@ export function createNewsCard(article, index, onDelete, onSave) {
         </div>
     `;
 
-    // Connect dismiss structural delete triggers cleanly
-    const deleteBtn = card.querySelector('.crud-delete-overlay-btn');
-    deleteBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        onDelete(article.url);
-    });
-
-    // Connect bookmark state updates securely
+    // Core layout container click handlers binding actions properties metrics variables checks
+    
+    // Bookmarks tracking state adjustments changes routing buttons controllers mappings
     const saveBtn = card.querySelector('.bookmark-save-btn');
     saveBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        onSave(article, saveBtn);
+        e.stopPropagation(); // Parent redirect listeners parameters processing execution cancel safely
+        onSave(article, saveBtn); // Synchronization modules tracking update target functions callback running execution
     });
 
-    return card;
+    return card; // Final ready individual layout block node object returns cleanly
 }
