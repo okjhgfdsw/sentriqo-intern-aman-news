@@ -283,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeUserSession && activeUserSession.isLoggedIn) {
             // 1. Hide default credentials buttons if they exist
             if (loginBtn) loginBtn.style.display = 'none';
-            
 
             // 🛠️ TRANSFORM TO LOGOUT BUTTON STATE NATIVELY:
             if (googleSignupBtn) {
@@ -299,14 +298,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // 2. Restore default state if logged out
             if (loginBtn) loginBtn.style.display = 'block';
-            if (avatarBtn) {
-                avatarBtn.style.display = 'none';
-                avatarBtn.classList.remove('logged-in');
-            }
 
             // 🛠️ RESTORE BACK TO GOOGLE SIGNIN OAUTH INTERACTION:
             if (googleSignupBtn) {
-                googleSignupBtn.textContent = "Sign using Google";
+                googleSignupBtn.textContent = "Sign in using Google";
                 googleSignupBtn.classList.remove('logout-active-state');
                 
                 googleSignupBtn.onclick = function(e) {
@@ -321,14 +316,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Centralized silent logout pipeline to instantly flush states with zero alerts
     function executeApplicationLogoutPipeline() {
-        // 🛠️ Wipes active session memory arrays silently, matching purge layouts without confirmation blocks
-        localStorage.removeItem('news_active_session');
-        SEEN_ARTICLES_SESSION_LEDGER.clear();
-        destroyChartInstances();
+        try {
+            localStorage.removeItem('news_active_session');
+            SEEN_ARTICLES_SESSION_LEDGER.clear();
+            if (typeof destroyChartInstances === 'function') {
+                destroyChartInstances();
+            }
+        } catch (err) {
+            console.warn("Minor variable cleanup hitch:", err);
+        }
         
         console.log("🔒 Session terminated silently.");
-        
-        // Apply pristine baseline styles context and force layout reload parameters instantly
         checkAndApplyAuthAuthLayoutState();
         window.location.reload();
     }
@@ -457,13 +455,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     authPasswordInput.classList.add('input-invalid');
                 }
             }
-        });
-    }
-
-    // Avatar profile link maps to same silent logout utility endpoint seamlessly
-    if (avatarBtn) {
-        avatarBtn.addEventListener('click', () => {
-            executeApplicationLogoutPipeline();
         });
     }
 
@@ -932,6 +923,104 @@ document.addEventListener('DOMContentLoaded', () => {
             if (tempBox) tempBox.textContent = "--°C";
             if (iconBox) iconBox.textContent = "☀️";
         }
+    }
+
+    // ==========================================================================
+    // 📥 OFFLINE FEED EXPORT SYSTEM MECHANICS
+    // ==========================================================================
+    if (exportFeedBtn) {
+        exportFeedBtn.addEventListener('click', () => {
+            if (!localArticlesState || localArticlesState.length === 0) {
+                if (typeof triggerSystemModalAlert === 'function') {
+                    triggerSystemModalAlert(
+                        "Export Action Blocked", 
+                        "No articles available in the active feed to export!", 
+                        true
+                    );
+                } else {
+                    alert("No articles available in the active feed to export!");
+                }
+                return;
+            }
+
+            let detachedPageHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exported News Feed Matrix</title>
+    <style>
+        :root {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --accent: #38bdf8;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; margin-bottom: 2rem; }
+        h1 { font-size: 2rem; margin: 0; letter-spacing: -0.02em; }
+        .meta-stamp { font-size: 0.9rem; color: var(--text-sub); margin-top: 0.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .card { background-color: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; }
+        .img-box { width: 100%; height: 180px; background-color: #334155; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .content { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; flex-grow: 1; }
+        .source { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); font-weight: 700; }
+        h3 { font-size: 1.15rem; margin: 0; line-height: 1.4; }
+        p { font-size: 0.88rem; color: var(--text-sub); margin: 0; line-height: 1.5; }
+        .footer-link { margin-top: auto; padding-top: 0.5rem; }
+        .btn { display: inline-block; font-size: 0.85rem; font-weight: 600; color: #0f172a; background-color: var(--accent); padding: 8px 14px; text-decoration: none; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📰 Exported Intel Deck</h1>
+            <div class="meta-stamp">Context View: <strong>${currentFeedContext}</strong> | Generated on: ${new Date().toLocaleString()}</div>
+        </header>
+        <main class="grid">
+            ${localArticlesState.map(art => `
+                <div class="card">
+                    <div class="img-box">
+                        <img src="${art.imgUrl || ''}" alt="Thumbnail" onerror="this.style.display='none';">
+                    </div>
+                    <div class="content">
+                        <span class="source">${art.source || ''} • ${art.time || ''}</span>
+                        <h3>${art.title || ''}</h3>
+                        <p>${art.description || 'No description summary available.'}</p>
+                        <div class="footer-link">
+                            <a href="${art.url || '#'}" target="_blank" class="btn">Read Article ↗</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </main>
+    </div>
+</body>
+</html>`;
+
+            const blobLedger = new Blob([detachedPageHtml], { type: 'text/html' });
+            const temporaryDownloadUrl = URL.createObjectURL(blobLedger);
+
+            const hiddenAnchorNode = document.createElement('a');
+            hiddenAnchorNode.href = temporaryDownloadUrl;
+            hiddenAnchorNode.download = `news-feed-export-${currentFeedContext.toLowerCase().replace(/\s+/g, '-')}.html`;
+            
+            document.body.appendChild(hiddenAnchorNode);
+            hiddenAnchorNode.click();
+            
+            document.body.removeChild(hiddenAnchorNode);
+            URL.revokeObjectURL(temporaryDownloadUrl);
+        });
     }
 
     // Triggering routines tracking layout baselines startup execution systems sequences
