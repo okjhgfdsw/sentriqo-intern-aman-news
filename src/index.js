@@ -1066,7 +1066,7 @@ window.launchGoogleAuthSequence = function() {
     
     // 🛠️ FIX: If hosted on github.io, use the full repository path URL. Otherwise, fallback to local origin.
     const redirectUri = window.location.hostname.includes('github.io')
-        ? 'https://okjhgfdsw.github.io/sentriqo-intern-aman-news/'
+        ? 'https://okjhgfdsw.github.io'
         : window.location.origin; 
     
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` + 
