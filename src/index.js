@@ -837,28 +837,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Input text search field engine tracking filters execution processing layout debouncing
-    if (searchFieldInput) {
-        searchFieldInput.addEventListener('input', (event) => {
-            const rawQueryString = event.target.value.trim();
-            clearTimeout(searchDebounceTimer); // Purane pending timer instance ko clean down karenge
+    // ==========================================================================
+    // 🔍 NEW EXPLICIT BUTTON CLICK SEARCH ENGINE HANDLER
+    // ==========================================================================
+    if (searchSubmitBtn && searchFieldInput) {
+        searchSubmitBtn.addEventListener('click', (event) => {
+            event.preventDefault(); 
+            const rawQueryString = searchFieldInput.value.trim();
             
             if (rawQueryString.length === 0) {
                 resetAllDropdownsExcept(null);
                 renderPortalFeed('Business');
                 return;
             }
-            if (rawQueryString.length < 3) return; // Filtering bypass trigger if string limit too small
+            
+            if (rawQueryString.length < 3) return; 
 
-            // Debounce processing window timeout setup configuration delays parameters mapping
-            searchDebounceTimer = setTimeout(() => {
-                clearAllSelectionHighlights();
-                resetAllDropdownsExcept(null);
-                pushQueryToHistory(rawQueryString);
-                renderPortalFeed(`search-${rawQueryString}`);
-            }, 400);
+            clearAllSelectionHighlights();
+            resetAllDropdownsExcept(null);
+            pushQueryToHistory(rawQueryString);
+            renderPortalFeed(`search-${rawQueryString}`);
+        });
+
+        searchFieldInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                searchSubmitBtn.click();
+            }
         });
     }
-
     // Financial ticker panel clicks routing default configurations triggers mappings
     if (financialTickerWidget) {
         financialTickerWidget.addEventListener('click', () => {
