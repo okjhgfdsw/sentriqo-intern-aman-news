@@ -14,7 +14,7 @@ to read news later.
 ## 📸 Application Preview
 
 <p>
-  <img width="1888" height="905" alt="Dashboard Preview" src="https://github.com/user-attachments/assets/ac68470b-3613-4048-b31a-b9209a0037aa" />
+  <img width="900" height="400" alt="image" src="https://github.com/user-attachments/assets/fcc61bc8-39d2-4c6e-89e2-7e35902d74ca" />
 </p>
 
 ---
