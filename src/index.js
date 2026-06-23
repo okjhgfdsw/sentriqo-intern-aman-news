@@ -48,7 +48,7 @@ const SEEN_ARTICLES_SESSION_LEDGER = new Set();
 document.addEventListener('DOMContentLoaded', () => {
     // UI elements ko unki ID aur class ke throw select karke variables mein save kar rahe hain
     const newsGridDisplay = document.getElementById('news-grid');
-    
+
     const dynamicHeadlineArea = document.getElementById('dynamic-headline-area');
     const searchFieldInput = document.querySelector('.search-field');
     const financialTickerWidget = document.querySelector('.financial-ticker');
@@ -1063,7 +1063,11 @@ window.launchGoogleAuthSequence = function() {
     console.log("🚀 Redirecting target stream to Google account chooser on the SAME tab...");
     
     const clientId = "146685345388-lgjnhuj26h75peb2j03fbq6vb8cks2bo.apps.googleusercontent.com"; 
-    const redirectUri = window.location.origin; 
+    
+    // 🛠️ FIX: If hosted on github.io, use the full repository path URL. Otherwise, fallback to local origin.
+    const redirectUri = window.location.hostname.includes('github.io')
+        ? 'https://okjhgfdsw.github.io/sentriqo-intern-aman-news/'
+        : window.location.origin; 
     
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` + 
         `client_id=${encodeURIComponent(clientId)}&` +
@@ -1075,7 +1079,6 @@ window.launchGoogleAuthSequence = function() {
 
     window.location.href = googleAuthUrl;
 };
-
 // ==========================================================================
 // 📥 AUTOMATIC FRAGMENT REDIRECT PARSER
 // ==========================================================================
