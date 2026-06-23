@@ -9,6 +9,13 @@ A clean and fast News Aggregator Dashboard built using pure Vanilla JavaScript d
 to read news later.
 
 🔗 **Live Production URL:** [https://okjhgfdsw.github.io/sentriqo-intern-aman-news/](https://okjhgfdsw.github.io/sentriqo-intern-aman-news/)
+---
+
+## 📸 Application Preview
+
+<img width="900" height="400" alt="image" src="https://github.com/user-attachments/assets/fcc61bc8-39d2-4c6e-89e2-7e35902d74ca" />
+
+
 
 ---
 
@@ -30,7 +37,7 @@ to read news later.
 
 
 
-## 🛠️ Architecture and Tech Stack
+##  Architecture and Tech Stack
 
 * **Core Languages:** Vanilla JS (ES6+), HTML5, CSS3
 
