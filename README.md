@@ -5,17 +5,19 @@
 [![Deployment Status](https://img.shields.io/badge/Deployment-Live_on_GitHub_Pages-22c55e?style=for-the-badge&logo=github)](https://okjhgfdsw.github.io/sentriqo-intern-aman-news/)
 [![Tech Stack](https://img.shields.io/badge/Stack-Vanilla_JS_||_HTML5_||_CSS3-38bdf8?style=for-the-badge)](https://github.com/okjhgfdsw/sentriqo-intern-aman-news)
 
-A robust, enterprise-grade **News Aggregator Terminal** engineered entirely with standard-compliant Vanilla JavaScript during an intense **8-Week Software Engineering Internship** at **Sentriqo**. The application ingests downstream micro-data channels, applies high-performance synchronization logic, and maps data streams into an accessible, responsive dashboard environment.
+A clean and fast News Aggregator Dashboard built using pure Vanilla JavaScript during my 8-week software engineering internship at Sentriqo. The application fetches live news from public APIs, organizes data on a responsive dashboard, and allows users to search and filter topics seamlessly and also provide bookmark
+to read news later.
 
 🔗 **Live Production URL:** [https://okjhgfdsw.github.io/sentriqo-intern-aman-news/](https://okjhgfdsw.github.io/sentriqo-intern-aman-news/)
 
 ---
 
-## 🚀 Key Internship Deliverables & Core Features
+## Core Features
 
-### 1. 🔑 Secure OAuth2 & Session Isolation Engine
-* **Google Identity Services Federation:** Integrated seamless, client-side OAuth2 single-tab sequence handlers leveraging implicit token validation frameworks directly parsing URL hash flows.
-* **Account-Bleeding Protection:** Created custom algorithmic key generators (`window.getAccountStorageKey`) to segment distinct account profiles dynamically, ensuring multi-user isolation over identical local hardware engines.
+### 1.🔒 Secure Google Sign-In 
+Google Login (OAuth2): Adds a secure, seamless Google login that safely handles user login tokens directly inside a single browser tab.
+
+Multi-User Account Protection: Uses a custom function (window.getAccountStorageKey) to separate user data (like bookmarks and settings). This prevents different logged-in users from seeing each other's data on the same browser.
 
 ### 2. 🔍 Advanced Query & Control Shell
 * **Intent-Driven Explicit Search:** Refined real-time filtering mechanisms to bypass standard processing loops, capturing exact manual button click actions alongside keystroke mapping shortcuts ("Enter").
