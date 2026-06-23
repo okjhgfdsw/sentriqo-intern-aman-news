@@ -1066,7 +1066,7 @@ window.launchGoogleAuthSequence = function() {
     
     // 🛠️ FIX: If hosted on github.io, use the full repository path URL. Otherwise, fallback to local origin.
     const redirectUri = window.location.hostname.includes('github.io')
-        ? 'https://okjhgfdsw.github.io'
+        ? 'https://okjhgfdsw.github.io/sentriqo-intern-aman-news/'
         : window.location.origin; 
     
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` + 
@@ -1082,6 +1082,9 @@ window.launchGoogleAuthSequence = function() {
 // ==========================================================================
 // 📥 AUTOMATIC FRAGMENT REDIRECT PARSER
 // ==========================================================================
+// ==========================================================================
+// 📥 AUTOMATIC FRAGMENT REDIRECT PARSER
+// ==========================================================================
 function checkAndParseUrlHashToken() {
     const urlHash = window.location.hash;
     if (!urlHash) return;
@@ -1093,7 +1096,9 @@ function checkAndParseUrlHashToken() {
         const accessToken = params.get('access_token');
 
         if (accessToken) {
-            window.history.replaceState(null, null, window.location.pathname + window.location.search);
+            // 🛠️ SAFE PATH PRESERVATION FIX: Keeps the subfolder /sentriqo-intern-aman-news/ intact when stripping hash tokens
+            const cleanTargetUrl = window.location.origin + window.location.pathname + window.location.search;
+            window.history.replaceState(null, null, cleanTargetUrl);
 
             fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`)
                 .then(res => {
@@ -1119,7 +1124,6 @@ function checkAndParseUrlHashToken() {
     }
 }
 checkAndParseUrlHashToken();
-
 // ==========================================================================
 // GLOBAL IDENTITY MATRIX PAYLOAD TOKEN TRANSLATOR
 // ==========================================================================
