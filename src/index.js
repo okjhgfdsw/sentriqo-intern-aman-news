@@ -6,6 +6,7 @@
 import { createNewsCard } from './components/newsCard.js';
 import { fetchTopHeadlines } from './utils/api.js';
 import { rebuildAnalyticsVisualCharts, destroyChartInstances } from './utils/charts.js';
+import { saveBookmarks, getBookmarks } from './utils/storage.js';
 
 // Global variables initialize ho rahe hain state, filter aur timers manage karne ke liye
 let localArticlesState = [];
@@ -27,7 +28,7 @@ window.getAccountStorageKey = function(baseKeyName) {
         return `${baseKeyName}_${userSuffix}`; // e.g., "news_bookmarks_collection_amanupadhyay1980@gmail.com"
     }
     
-    // Fallback default key if no user is logged in
+    // Fallback default key if no     user is logged in
     return `${baseKeyName}_guest`;
 };
 
@@ -47,6 +48,7 @@ const SEEN_ARTICLES_SESSION_LEDGER = new Set();
 document.addEventListener('DOMContentLoaded', () => {
     // UI elements ko unki ID aur class ke throw select karke variables mein save kar rahe hain
     const newsGridDisplay = document.getElementById('news-grid');
+    
     const dynamicHeadlineArea = document.getElementById('dynamic-headline-area');
     const searchFieldInput = document.querySelector('.search-field');
     const financialTickerWidget = document.querySelector('.financial-ticker');
