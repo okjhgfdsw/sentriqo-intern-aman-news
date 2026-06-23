@@ -15,23 +15,24 @@ to read news later.
 ## Core Features
 
 ### 1. 🔒 Secure Google Sign-In 
-* Google Login (OAuth): Safely handles login tokens inside a single browser tab.
+* **Google Login (OAuth):** Safely handles login tokens inside a single browser tab.
 
-* Multi-User Protection: Uses window.getAccountStorageKey to separate user bookmarks and search histories, preventing data leaking between different accounts on the same browser.
+* **Multi-User Protection:** Uses window.getAccountStorageKey to separate user bookmarks and search histories, preventing data leaking between different accounts on the same browser.
 ### 2.🔍 Smart Search & Content Filtering
 * Triggers search operations explicitly when clicking the "Search" button .
 
-* Noise Filter: Cleans up live news feeds by blocking unwanted keywords (like matches or entertainment) .
+* **Noise Filter:** Cleans up live news feeds by blocking unwanted keywords (like matches or entertainment) .
 
 ### 3. 📊 Visual Analytics Graph & Dynamic Layouts
 * **Real-time Charting System:** Integrated `Chart.js` to know the trusted platform from where my website fetched news .
-* 
+
 * **Responsive Layout:** Built modular structural components executing user preference layout selection arrays (Modular Grid Cards, Force Horizontal view).
 
 
 
 ## 🛠️ Architecture and Tech Stack
 
-* Core Languages: Vanilla JS (ES6+), HTML5, CSS3
-* **User Interface Layer:** Semantic HTML5 Markup and Complex CSS3 Layout Engine
-* **External Integrations:** Google Identity Provider Platform SDK, Chart.js Visual Engines, Open-Meteo Meteorological APIs, OpenStreetMap Reverse Geocoding Infrastructure.
+* **Core Languages:** Vanilla JS (ES6+), HTML5, CSS3
+
+* **External Integrations:** API key Take from currentAPI website,Local Temperature & Weather Conditions Via Open-Meteo and User Profiling & Security
+  Via Google Identity OAuthentication .
