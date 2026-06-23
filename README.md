@@ -14,28 +14,24 @@ to read news later.
 
 ## Core Features
 
-### 1.🔒 Secure Google Sign-In 
-Google Login (OAuth2): Adds a secure, seamless Google login that safely handles user login tokens directly inside a single browser tab.
+### 1. 🔒 Secure Google Sign-In 
+* Google Login (OAuth): Safely handles login tokens inside a single browser tab.
 
-Multi-User Account Protection: Uses a custom function (window.getAccountStorageKey) to separate user data (like bookmarks and settings). This prevents different logged-in users from seeing each other's data on the same browser.
+* Multi-User Protection: Uses window.getAccountStorageKey to separate user bookmarks and search histories, preventing data leaking between different accounts on the same browser.
+### 2.🔍 Smart Search & Content Filtering
+* Triggers search operations explicitly when clicking the "Search" button .
 
-### 2. 🔍 Advanced Query & Control Shell
-* **Intent-Driven Explicit Search:** Refined real-time filtering mechanisms to bypass standard processing loops, capturing exact manual button click actions alongside keystroke mapping shortcuts ("Enter").
-* **Low-Fidelity Noise Reduction Filter:** Scripted continuous text-screening algorithms to filter out trivial keywords (e.g., entertainment, matches, gossip) instantly from live tracking feeds.
-* **Historical Queries Tag Tray:** Tracks, prioritizes, and balances user search strings into a cached, accessible tag pill tray module with automated depth-limit constraints.
+* Noise Filter: Cleans up live news feeds by blocking unwanted keywords (like matches or entertainment) .
 
-### 3. 📊 Visual Analytics Layer & Dynamic Layouts
-* **Real-time Charting System:** Integrated `Chart.js` components dynamically rendering multi-layer content categories, platform weights, and volume distributions.
-* **Responsive Layout Deck Engines:** Built modular structural components executing user preference layout selection arrays (Modular Grid Cards, Horizontal Analytical List view, and Instagram-style vertical streams).
+### 3. 📊 Visual Analytics Graph & Dynamic Layouts
+* **Real-time Charting System:** Integrated `Chart.js` to know the trusted platform from where my website fetched news .
+* 
+* **Responsive Layout:** Built modular structural components executing user preference layout selection arrays (Modular Grid Cards, Force Horizontal view).
 
-### 4. 🌦️ Contextual Edge Integrations
-* **Reverse Geocoding Operations:** Configured background geolocation processing routines tapping into open-source mapping services alongside real-time predictive forecast modules to display localized current coordinates.
-* **Offline HTML Feed Exporter:** Created a localized client-side file compiling system, dynamically generating complete separate, stylized offline snapshot files using binary `Blob` data targets.
 
----
 
 ## 🛠️ Architecture and Tech Stack
 
-* **Language Runtime:** Vanilla JavaScript (ES6+ Native Scripting Structure Architecture)
+* Core Languages: Vanilla JS (ES6+), HTML5, CSS3
 * **User Interface Layer:** Semantic HTML5 Markup and Complex CSS3 Layout Engine
 * **External Integrations:** Google Identity Provider Platform SDK, Chart.js Visual Engines, Open-Meteo Meteorological APIs, OpenStreetMap Reverse Geocoding Infrastructure.
