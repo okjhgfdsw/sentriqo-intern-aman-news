@@ -3,8 +3,8 @@
 // ==========================================================================
 
 // Currents API server se connect karne ke liye unique secret token keys aur URL setup kiya hai
-const API_KEY = 'L_KEiEMkb_k-VYhNWPBeBCBROFCeaypDw36zOmzZmoNsmaxB';
-//const API_KEY = 'Yn1WQVMWZz7L4u9Z8l2s4JcwXKSVbJGPvK_Xqxk6pn677D1b';
+//const API_KEY = 'L_KEiEMkb_k-VYhNWPBeBCBROFCeaypDw36zOmzZmoNsmaxB';
+const API_KEY = 'Yn1WQVMWZz7L4u9Z8l2s4JcwXKSVbJGPvK_Xqxk6pn677D1b';
 const BASE_URL = 'https://api.currentsapi.services/v1';
 
 // Currents API standard rules ke hisab se ek page par max 50 items ka load limit set kiya hai
